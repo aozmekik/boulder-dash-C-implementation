@@ -1,5 +1,9 @@
 # Boulder-Dash-C-Implementation
+
+
 ![Boulder Dash](Boulder_dash.jpg)
+
+
 The classic game is about diamond chase underground with many obstacles. 
 It wasn't it my generation tho. Yet, I do believe that I remember the scenes of my relatives playing this game. "Rockford" escaping from falling rocks, collecting diamonds with style. The most I like about this is game is that especially the sound of walking underground. I wish I used to play this game with Commodore 64. 
 
@@ -14,4 +18,8 @@ I did a bad job on this code. But knowing the code was bad made me feel like I w
 I love this code because I hate it.  
 
 ![My1](my1.png)
+
+
+
+
 ![My1](my1.png)
