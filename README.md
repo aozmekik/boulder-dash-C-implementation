@@ -24,6 +24,8 @@ I love this code because I hate it.
 
 ![My1](my2.png)
 
+Video: https://www.youtube.com/watch?v=57r9qhH5WCM
+
 
 Framework used in this project was Allegro btw. And there levels up to 10 which is straightly coming from .txt files and turns into a 2d map. Just so, making the design of creating map of levels simple. 
 
