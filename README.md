@@ -1,34 +1,79 @@
-# Boulder-Dash-C-Implementation
+# Boulder Dash in C
 
+A remake of the classic game Boulder Dash, written in C with Allegro 5. Dig through earth, collect diamonds, stay clear of falling rocks and enemies, and reach the door before time runs out. The ten levels are plain text files.
 
-![Boulder Dash](Boulder_dash.jpg)
+Written in 2018 and uploaded here in February 2019.
 
+<p>
+  <img src="my2.png" width="49%" alt="Level 1 in play">
+  <img src="my1.png" width="49%" alt="Title screen">
+</p>
 
-The classic game is about diamond chase underground with many obstacles. 
-It wasn't it my generation tho. Yet, I do believe that I remember the scenes of my relatives playing this game. "Rockford" escaping from falling rocks, collecting diamonds with style. The most I like about this is game is that especially the sound of walking underground. I wish I used to play this game with Commodore 64. 
+Gameplay video: https://www.youtube.com/watch?v=57r9qhH5WCM
 
-Although this was not the first game I coded, it was the first one I fully finished 'til the end. It was a lot fun to code Boulder Dash after all these years. For the honor of the game, I picked the textures and sounds which I believe very similar to the original one's. 
+## How it plays
 
-I added some special features such as Monsters and Spiders. Spiders are just hanging around. But the Monsters have -eased- Path finding algorithm for catching Rockford. And there is water which is pretty much bubble. 
+- Rockford (`MINER` in the code) digs through earth and collects diamonds, 10 points each. Once he has the number the level asks for, a door appears next to him. Walking into it clears the level.
+- Rocks and diamonds fall into empty cells. One that lands on Rockford kills him. He can push a rock left or right if the cell behind it is empty.
+- Spiders move right if they can, otherwise down, otherwise left or up at random.
+- Monsters chase Rockford. Each step they move one cell toward him, trying the vertical direction first and then the horizontal one. If both cells are blocked, they wait.
+- Spiders and monsters move only through empty cells and kill Rockford on contact. A falling rock that lands on one kills it and turns the cells around it into diamonds.
+- Water spreads into neighbouring earth once per second. Rockford cannot walk through it.
+- Each level has a time limit, and the music speeds up in the last ten seconds. Rockford starts level n with n + 2 lives and restarts at the top-left corner after a death. Running out of time or lives restarts the level.
+- Clearing levels 1 to 9 adds 20 points per second left and 10 per life left. After level 10 the game shows the final score.
+- The view scrolls with Rockford in a 1366x768 window with 40-pixel tiles. The top bar shows diamonds needed and collected, level, lives, time and score.
 
-I must warn you that this code of mine was written 5 months ago. I sometimes check this code and I really hate it. I hate it so bad that even while I was coding, I was sick of it. Yeah it was fun tho, but it wasn't fun because I was doing a good job with the design of my code or the clearity of my code. The code was spagetti as hell. But it was fun because I was realizing tons of better approaches about clearer design or brighter ideas about implementation, in every second. I didn't be able to implement what was in my mind for the whole code, yet I believe I have learned lots of things from this project. Such as, how to think before code. Or how to seperate models from views and both from controller. 
+## Controls
 
-I did a bad job on this code. But knowing the code was bad made me feel like I was getting to somewhere. Long story short:  
+| Key | Action |
+| --- | --- |
+| Space | Start, or resume after a pause |
+| Arrow keys | Move |
+| Esc | Pause |
+| Close the window | Quit |
 
-I love this code because I hate it.  
+## Levels
 
-![My1](my1.png)
+`Levels/LEVEL_1.txt` to `Levels/LEVEL_10.txt` start with four header lines: the number of diamonds that opens the door, the map size (rows and columns), the time limit in seconds, and two camera scroll factors. A `-` line follows, then the map. The start of level 1:
 
+```
+20
+20 40
+80
+1.7 1.8
+-
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BMEEEEREREREREREREREEEEEEEEREREREREREREB
+```
 
+| Char | Object | Char | Object |
+| --- | --- | --- | --- |
+| `B` | border wall | `M` | Rockford's start |
+| `E` | earth | `S` | spider |
+| space | empty | `!` | monster |
+| `R` | rock | `W` | water |
+| `*` | diamond | `D` | door |
 
+Spiders appear in levels 5, 6, 8, 9 and 10, monsters in levels 6, 8, 9 and 10, and water in levels 7 and 10.
 
-![My1](my2.png)
+## Building and running
 
-Video: https://www.youtube.com/watch?v=57r9qhH5WCM
+Needs gcc, pkg-config and Allegro 5 with the addons the `Makefile` asks pkg-config for: `allegro-5`, `allegro_dialog-5`, `allegro_ttf-5`, `allegro_image-5`, `allegro_audio-5` and `allegro_acodec-5`.
 
+```sh
+make
+```
 
-Framework used in this project was Allegro btw. And there levels up to 10 which is straightly coming from .txt files and turns into a 2d map. Just so, making the design of creating map of levels simple. 
+This compiles `bd.c` into `./bd` and starts it. Run it from the repository root, because textures, sounds, the font and the levels are loaded by relative path.
 
-@author Ahmed Semih Özmekik
-@see twitter.com/drh0use1
-  
+## Layout
+
+- `bd.c`: main loop, input, and the game logic (rocks, spiders, monsters, water, levels, score bar)
+- `bd.h`: sound and bitmap globals, `load_bitmap_at_size()`
+- `Objects.h`: object IDs and the `Miner`, `FallingObject`, `MovingObject` and `Level` structs
+- `Levels/`, `Textures/`, `Sounds/`, `Font/`: level files and assets
+
+## Notes
+
+- The textures in `Textures/` and the sounds in `Sounds/` were picked to look and sound like the original game. They are not the author's work, and the repository does not record where they came from.
+- `Font/zig.ttf` is the Zig font by Tepid Monkey Fonts, according to the font file's own metadata.
